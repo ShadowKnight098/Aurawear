@@ -2,11 +2,38 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { products as initialProducts } from '../data/products';
 import { supabase } from '../config/supabaseClient';
 
+const PRELOADED_CODES = {
+  'm-1': '10001', 'm-2': '10002', 'm-3': '10003', 'm-4': '10004', 'm-5': '10005',
+  'w-1': '10006', 'w-2': '10007', 'w-3': '10008', 'w-4': '10009', 'w-5': '10010',
+  'k-1': '10011', 'k-2': '10012', 'k-3': '10013',
+  'm-6': '10014', 'm-7': '10015', 'm-8': '10016',
+  'w-6': '10017', 'w-7': '10018', 'w-8': '10019',
+  'k-4': '10020', 'k-5': '10021', 'k-6': '10022'
+};
+
+export const getProductCode = (productId) => {
+  if (!productId) return '';
+  if (PRELOADED_CODES[productId]) {
+    return PRELOADED_CODES[productId];
+  }
+  let hash = 0;
+  for (let i = 0; i < productId.length; i++) {
+    hash = (hash << 5) - hash + productId.charCodeAt(i);
+    hash |= 0;
+  }
+  return String((Math.abs(hash) % 90000) + 10000);
+};
+
 const ShopContext = createContext();
 
 export const ShopProvider = ({ children }) => {
   // Products state (defaults to initialProducts, and gets hydrated from Supabase if connected)
-  const [products, setProducts] = useState(initialProducts);
+  const [products, setProducts] = useState(() => {
+    return initialProducts.map(p => ({
+      ...p,
+      productCode: getProductCode(p.id)
+    }));
+  });
 
   // Current logged in User session
   const [user, setUser] = useState(() => {
@@ -20,8 +47,32 @@ export const ShopProvider = ({ children }) => {
 
   const [authLoading, setAuthLoading] = useState(true);
 
+  // Global Toast System
+  const [toast, setToast] = useState({ message: '', type: 'success', visible: false });
+  const [toastTimer, setToastTimer] = useState(null);
+
+  const showToast = (message, type = 'success') => {
+    if (toastTimer) {
+      clearTimeout(toastTimer);
+    }
+    setToast({ message, type, visible: true });
+    const timer = setTimeout(() => {
+      setToast(prev => ({ ...prev, visible: false }));
+    }, 3000);
+    setToastTimer(timer);
+  };
+
   useEffect(() => {
     localStorage.setItem('aura_user', JSON.stringify(user));
+    if (user) {
+      if (sessionStorage.getItem('show_login_toast') === 'true') {
+        showToast('Welcome back! Logged in successfully.', 'success');
+        sessionStorage.removeItem('show_login_toast');
+      } else if (sessionStorage.getItem('show_register_toast') === 'true') {
+        showToast('Account registered successfully! Welcome to Aura Wear.', 'success');
+        sessionStorage.removeItem('show_register_toast');
+      }
+    }
   }, [user]);
 
   // Hydrate products from Supabase products table
@@ -33,6 +84,7 @@ export const ShopProvider = ({ children }) => {
         if (!error && data && data.length > 0) {
           const formatted = data.map(p => ({
             id: p.id,
+            productCode: getProductCode(p.id),
             name: p.name,
             category: p.category,
             subCategory: p.sub_category,
@@ -633,6 +685,7 @@ export const ShopProvider = ({ children }) => {
               if (prev.some(item => item.id === p.id)) return prev;
               const formatted = {
                 id: p.id,
+                productCode: getProductCode(p.id),
                 name: p.name,
                 category: p.category,
                 subCategory: p.sub_category,
@@ -662,6 +715,7 @@ export const ShopProvider = ({ children }) => {
               if (item.id !== p.id) return item;
               return {
                 id: p.id,
+                productCode: getProductCode(p.id),
                 name: p.name,
                 category: p.category,
                 subCategory: p.sub_category,
@@ -684,7 +738,8 @@ export const ShopProvider = ({ children }) => {
                 reviews: p.reviews || []
               };
             }));
-          } else if (payload.eventType === 'DELETE') {
+          }
+ else if (payload.eventType === 'DELETE') {
             setProducts(prev => prev.filter(item => item.id !== payload.old.id));
           }
         }
@@ -734,6 +789,7 @@ export const ShopProvider = ({ children }) => {
         console.error('Error inserting customer to DB:', err);
       }
 
+      sessionStorage.setItem('show_register_toast', 'true');
       setUser(newUser);
       return { success: true, user: newUser };
     } else {
@@ -745,6 +801,7 @@ export const ShopProvider = ({ children }) => {
         role: 'customer',
         isAdmin: false
       };
+      sessionStorage.setItem('show_register_toast', 'true');
       setUser(newUser);
       return { success: true, user: newUser };
     }
@@ -753,6 +810,7 @@ export const ShopProvider = ({ children }) => {
   const loginUser = async (email, password) => {
     if (email === 'admin@aurawear.com' && password === 'admin123') {
       const adminUser = { id: 'admin-1', name: 'Aura Admin', email: 'admin@aurawear.com', isAdmin: true, role: 'admin' };
+      sessionStorage.setItem('show_login_toast', 'true');
       setUser(adminUser);
       return { success: true, user: adminUser };
     }
@@ -791,24 +849,30 @@ export const ShopProvider = ({ children }) => {
         role,
         isAdmin: role === 'admin'
       };
+      sessionStorage.setItem('show_login_toast', 'true');
       setUser(profile);
       return { success: true, user: profile };
     } else {
       const regularUser = { id: 'usr-default', name: 'Guest User', email, phone: '+91 99999 88888', role: 'customer', isAdmin: false };
+      sessionStorage.setItem('show_login_toast', 'true');
       setUser(regularUser);
       return { success: true, user: regularUser };
     }
   };
 
   const signInWithGoogle = async () => {
+    sessionStorage.setItem('show_login_toast', 'true');
     if (supabase) {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: window.location.origin + '/dashboard'
+          redirectTo: window.location.origin + '/shop'
         }
       });
-      if (error) return { success: false, message: error.message };
+      if (error) {
+        sessionStorage.removeItem('show_login_toast');
+        return { success: false, message: error.message };
+      }
       return { success: true, data };
     } else {
       const mockGoogleUser = { id: 'usr-google', name: 'Google Sandbox User', email: 'google.sandbox@example.com' };
@@ -882,8 +946,10 @@ export const ShopProvider = ({ children }) => {
     // 1. Reactive Local Update
     setWishlist(prev => {
       if (prev.includes(productId)) {
+        showToast('Removed from wishlist', 'info');
         return prev.filter(id => id !== productId);
       } else {
+        showToast('Added to wishlist!', 'success');
         return [...prev, productId];
       }
     });
@@ -1551,9 +1617,32 @@ export const ShopProvider = ({ children }) => {
       performAISearch,
       updateProfile,
       sendPasswordResetEmail,
-      updatePassword
+      updatePassword,
+      showToast
     }}>
       {children}
+      {toast.visible && (
+        <div className={`global-toast toast-${toast.type} animate-slide-up`}>
+          {toast.type === 'success' ? (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#248a52" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          ) : toast.type === 'error' ? (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d93025" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          ) : (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a73e8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+          )}
+          <span>{toast.message}</span>
+        </div>
+      )}
     </ShopContext.Provider>
   );
 };

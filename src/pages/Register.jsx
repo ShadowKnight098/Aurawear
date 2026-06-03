@@ -20,7 +20,7 @@ export const Register = () => {
       if (user.isAdmin) {
         navigate('/admin', { replace: true });
       } else {
-        navigate('/dashboard', { replace: true });
+        navigate('/shop', { replace: true });
       }
     }
   }, [user, navigate]);
@@ -36,7 +36,7 @@ export const Register = () => {
 
     const res = await registerUser({ name, email, phone, password });
     if (res.success) {
-      navigate('/dashboard');
+      navigate('/shop');
     } else {
       setErrorMsg(res.message || 'Registration failed.');
     }
@@ -49,7 +49,11 @@ export const Register = () => {
       const res = await signInWithGoogle();
       if (res.success) {
         if (res.user) {
-          navigate('/dashboard');
+          if (res.user.isAdmin) {
+            navigate('/admin');
+          } else {
+            navigate('/shop');
+          }
         }
       } else {
         setErrorMsg(res.message || 'Google authentication failed.');

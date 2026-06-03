@@ -61,7 +61,10 @@ export const AdminLogin = () => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Password</label>
+              <div className="label-forgot-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                <label className="form-label" style={{ marginBottom: 0 }}>Password</label>
+                <Link to="/forgot-password" style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', textDecoration: 'underline' }}>Forgot Password?</Link>
+              </div>
               <div className="auth-input-wrapper">
                 <Lock size={16} className="auth-input-icon" />
                 <input 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useShop } from '../../context/ShopContext';
+import { useShop, getProductCode } from '../../context/ShopContext';
 import { ArrowLeft, Edit2, MapPin, Truck, LogOut } from 'lucide-react';
 
 export const AdminOrders = () => {
@@ -89,7 +89,7 @@ export const AdminOrders = () => {
                         <div className="table-items-summary-cell">
                           {order.items.map((item, idx) => (
                             <div key={idx} className="item-line text-xs">
-                              {item.quantity}x {item.name} ({item.size}/{item.color})
+                              {item.quantity}x {item.name} ({item.size}/{item.color}) &bull; <strong style={{ color: 'var(--accent-color)' }}>Code: {getProductCode(item.id)}</strong>
                             </div>
                           ))}
                         </div>

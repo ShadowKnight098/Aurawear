@@ -229,7 +229,7 @@ export const AdminProducts = () => {
                         <img src={p.images[0]} alt="" className="table-thumb" />
                         <div>
                           <strong>{p.name}</strong>
-                          <span className="text-xs text-muted block">ID: {p.id}</span>
+                          <span className="text-xs text-muted block">Code: {p.productCode} | ID: {p.id}</span>
                         </div>
                       </td>
                       <td data-label="Category">{p.category} - {p.subCategory}</td>

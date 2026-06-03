@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useShop } from '../context/ShopContext';
+import { useShop, getProductCode } from '../context/ShopContext';
 import { Check, AlertCircle, ShoppingBag, ArrowRight, ShieldCheck } from 'lucide-react';
 
 // Configurable WhatsApp Dealer Phone Number
@@ -112,7 +112,7 @@ export const CheckoutPage = () => {
 
         // Compile invoice text
         const itemsText = cartCopy.map(item => 
-          `• *${item.name}* (Size: ${item.size}, Color: ${item.color})\n  Qty: ${item.quantity} x ₹${item.price} = ₹${item.price * item.quantity}`
+          `• *${item.name}* [Code: ${getProductCode(item.id)}] (Size: ${item.size}, Color: ${item.color})\n  Qty: ${item.quantity} x ₹${item.price} = ₹${item.price * item.quantity}`
         ).join('\n\n');
 
         const discountLine = discountAmount > 0 ? `\n• *Discount:* -₹${discountAmount} (${couponCode || 'Promo'})` : '';

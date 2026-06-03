@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import { Mail, ArrowLeft, Send } from 'lucide-react';
+import { supabase } from '../config/supabaseClient';
 
 export const ForgotPassword = () => {
   const { sendPasswordResetEmail } = useShop();
@@ -9,6 +10,8 @@ export const ForgotPassword = () => {
   const [submitted, setSubmitted] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const isSupabaseConnected = !!supabase;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,33 +43,43 @@ export const ForgotPassword = () => {
 
           <div className="auth-header">
             <h2>Recover Password</h2>
-            <p className="text-secondary">Enter your registered email address and we'll send a password recovery mock verification link.</p>
+            <p className="text-secondary">Enter your registered email address and we'll send a password recovery link.</p>
           </div>
 
           {submitted ? (
             <div className="reset-success-box text-center animate-scale-in">
               <Mail size={40} className="success-mail-icon" />
               <h3>Check your Inbox</h3>
-              <p className="text-secondary">A password reset link has been sent to <strong>{email}</strong>. Click the link below to simulate opening it (in production this would arrive in your email).</p>
-              <div className="mock-email-preview animate-fade-in">
-                <div className="mock-email-header">
-                  <span className="mock-email-label">From:</span> noreply@aurawear.com
-                </div>
-                <div className="mock-email-header">
-                  <span className="mock-email-label">To:</span> {email}
-                </div>
-                <div className="mock-email-body">
-                  <p>Hi there,</p>
-                  <p>Click the button below to reset your Aura Wear password. This link expires in 30 minutes.</p>
-                  <Link 
-                    to={`/reset-password?email=${encodeURIComponent(email)}&token=mock-token-${Date.now()}`} 
-                    className="btn btn-primary btn-sm mock-reset-link"
-                  >
-                    Reset My Password
-                  </Link>
-                  <p className="mock-email-note">Didn't request this? You can safely ignore this email.</p>
-                </div>
-              </div>
+              
+              {isSupabaseConnected ? (
+                <p className="text-secondary" style={{ marginBottom: 0, marginTop: '12px', lineHeight: '1.6' }}>
+                  A password reset link has been successfully sent to <strong>{email}</strong>. 
+                  Please check your email inbox and spam folder to click the link and set your new password.
+                </p>
+              ) : (
+                <>
+                  <p className="text-secondary">A password reset link has been sent to <strong>{email}</strong>. Click the link below to simulate opening it (running in offline mock mode).</p>
+                  <div className="mock-email-preview animate-fade-in">
+                    <div className="mock-email-header">
+                      <span className="mock-email-label">From:</span> noreply@aurawear.com
+                    </div>
+                    <div className="mock-email-header">
+                      <span className="mock-email-label">To:</span> {email}
+                    </div>
+                    <div className="mock-email-body">
+                      <p>Hi there,</p>
+                      <p>Click the button below to reset your Aura Wear password. This link expires in 30 minutes.</p>
+                      <Link 
+                        to={`/reset-password?email=${encodeURIComponent(email)}&token=mock-token-${Date.now()}`} 
+                        className="btn btn-primary btn-sm mock-reset-link"
+                      >
+                        Reset My Password
+                      </Link>
+                      <p className="mock-email-note">Didn't request this? You can safely ignore this email.</p>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="auth-form">

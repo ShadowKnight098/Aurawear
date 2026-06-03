@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useShop } from '../../context/ShopContext';
 import { 
@@ -9,6 +9,30 @@ import {
 export const AdminDashboard = () => {
   const { user, orders, products, activeCoupons, logoutUser } = useShop();
   const navigate = useNavigate();
+
+  // Product Code Lookup State
+  const [lookupCode, setLookupCode] = useState('');
+  const [lookupProduct, setLookupProduct] = useState(null);
+  const [lookupMessage, setLookupMessage] = useState('Enter a 5-digit product code to view its details.');
+
+  const handleLookupChange = (e) => {
+    const val = e.target.value.trim();
+    setLookupCode(val);
+    
+    if (val.length === 5) {
+      const found = products.find(p => p.productCode === val);
+      if (found) {
+        setLookupProduct(found);
+        setLookupMessage('');
+      } else {
+        setLookupProduct(null);
+        setLookupMessage(`No product found with code "${val}".`);
+      }
+    } else {
+      setLookupProduct(null);
+      setLookupMessage('Enter a 5-digit product code to view its details.');
+    }
+  };
 
   // Security guard check
   useEffect(() => {
@@ -103,6 +127,82 @@ export const AdminDashboard = () => {
             <div className="stat-info">
               <span>Active Promo Codes</span>
               <h2>{couponCount}</h2>
+            </div>
+          </div>
+        </div>
+
+        {/* Product Code Lookup Panel */}
+        <div className="admin-card mb-32" style={{ backgroundColor: 'var(--bg-secondary)', border: '1.5px solid var(--accent-color)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '4px' }}>Product Quick Lookup</h3>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Identify items easily by typing their 5-digit unique code.</p>
+            </div>
+            
+            <div className="lookup-content-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 2.5fr', gap: '24px', alignItems: 'start' }}>
+              <div>
+                <label className="form-label" style={{ fontWeight: '600', marginBottom: '8px', display: 'block' }}>5-Digit Product Code</label>
+                <input 
+                  type="text" 
+                  maxLength={5}
+                  value={lookupCode}
+                  onChange={handleLookupChange}
+                  placeholder="e.g. 10001"
+                  className="form-input"
+                  style={{ width: '100%', fontSize: '1.1rem', padding: '12px 16px', letterSpacing: '0.05em' }}
+                />
+              </div>
+
+              <div style={{ minHeight: '100px', display: 'flex', alignItems: 'center', backgroundColor: 'var(--bg-primary)', border: '1px dashed var(--border-color)', borderRadius: 'var(--radius-md)', padding: '16px' }}>
+                {lookupProduct ? (
+                  <div className="lookup-result-row" style={{ display: 'flex', gap: '20px', width: '100%', alignItems: 'flex-start' }}>
+                    <img 
+                      src={lookupProduct.images[0]} 
+                      alt="" 
+                      style={{ width: '80px', height: '90px', objectFit: 'cover', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', flexShrink: 0 }}
+                    />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '8px' }}>
+                        <div>
+                          <h4 style={{ fontSize: '1.1rem', fontWeight: '600', color: 'var(--text-primary)', margin: '0 0 4px 0' }}>{lookupProduct.name}</h4>
+                          <span style={{ fontSize: '0.8rem', color: 'var(--accent-color)', fontWeight: '600', textTransform: 'uppercase' }}>
+                            Code: {lookupProduct.productCode} &bull; {lookupProduct.category} &bull; {lookupProduct.subCategory}
+                          </span>
+                        </div>
+                        <div style={{ textAlign: 'right' }}>
+                          <span style={{ display: 'block', fontSize: '1.15rem', fontWeight: '700', color: 'var(--text-primary)' }}>₹{lookupProduct.price}</span>
+                          <span className={`badge ${lookupProduct.stock > 0 ? 'badge-success' : 'badge-danger'}`} style={{ fontSize: '0.7rem', padding: '2px 6px', borderRadius: '4px', display: 'inline-block', marginTop: '4px' }}>
+                            {lookupProduct.stock > 0 ? `${lookupProduct.stock} In Stock` : 'Out of Stock'}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      <div style={{ marginTop: '12px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px', fontSize: '0.8rem' }}>
+                        <div>
+                          <strong>Available Sizes:</strong> {lookupProduct.sizes.join(', ')}
+                        </div>
+                        <div>
+                          <strong>Colors:</strong> {lookupProduct.colors.join(', ')}
+                        </div>
+                        {lookupProduct.fit && (
+                          <div>
+                            <strong>Fit:</strong> {lookupProduct.fit}
+                          </div>
+                        )}
+                        {lookupProduct.brand && (
+                          <div>
+                            <strong>Brand:</strong> {lookupProduct.brand}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', width: '100%', textAlign: 'center', margin: 0 }}>
+                    {lookupMessage}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         </div>
