@@ -521,6 +521,14 @@ export const ShopPage = () => {
           gap: 16px;
           border-bottom: 1px solid var(--border-color);
           margin-bottom: 32px;
+          overflow-x: auto;
+          white-space: nowrap;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+          width: 100%;
+        }
+        .catalog-tabs::-webkit-scrollbar {
+          display: none;
         }
         .catalog-tab-btn {
           font-family: var(--font-display);
@@ -530,6 +538,7 @@ export const ShopPage = () => {
           color: var(--text-muted);
           border-bottom: 2px solid transparent;
           transition: var(--transition-fast);
+          flex-shrink: 0;
         }
         .catalog-tab-btn:hover {
           color: var(--text-primary);

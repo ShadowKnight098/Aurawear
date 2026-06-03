@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import { ProductCard } from '../components/ProductCard';
@@ -46,14 +46,14 @@ export const CartPage = () => {
   };
 
   // Recently Viewed product list
-  const recentlyViewedProducts = products.filter(p => recentlyViewed.includes(p.id) && !cart.some(c => c.id === p.id)).slice(0, 4);
+  const recentlyViewedProducts = (products || []).filter(p => (recentlyViewed || []).includes(p.id) && !(cart || []).some(c => c.id === p.id)).slice(0, 4);
 
   return (
     <div className="cart-page-wrapper section-padding">
       <div className="container">
         <h1 className="cart-title">Your Cart</h1>
         
-        {cart.length === 0 ? (
+        {(cart || []).length === 0 ? (
           <div className="empty-cart-view animate-scale-in">
             <AlertCircle size={48} className="text-muted" />
             <h2>Your shopping cart is empty</h2>
@@ -64,7 +64,7 @@ export const CartPage = () => {
           <div className="cart-grid">
             {/* Items List */}
             <div className="cart-items-panel">
-              {cart.map((item) => (
+              {(cart || []).map((item) => (
                 <div key={item.key} className="cart-item-row animate-fade-in">
                   <img src={item.image} alt={item.name} className="cart-item-img" />
                   <div className="cart-item-details">

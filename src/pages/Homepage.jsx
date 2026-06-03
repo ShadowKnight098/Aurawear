@@ -345,6 +345,10 @@ export const Homepage = () => {
           .flash-banner-content {
             flex-direction: column;
             text-align: center;
+            gap: 6px;
+          }
+          .flash-coupon {
+            display: none;
           }
         }
         .flash-deal {
@@ -407,8 +411,32 @@ export const Homepage = () => {
           color: #ffffff;
         }
         @media (max-width: 768px) {
+          .hero-section {
+            height: auto;
+            min-height: 400px;
+            padding: 40px 0 60px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+          }
+          .hero-content {
+            margin: 0 auto;
+            padding: 0 16px;
+          }
           .hero-title {
-            font-size: 2.2rem;
+            font-size: 2rem;
+            line-height: 1.2;
+            margin-bottom: 12px;
+          }
+          .hero-description {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 24px;
+          }
+          .hero-subtitle {
+            margin-bottom: 12px;
           }
         }
         .hero-description {
@@ -454,8 +482,23 @@ export const Homepage = () => {
         }
         @media (max-width: 576px) {
           .trust-grid {
-            grid-template-columns: 1fr;
-            gap: 20px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+          }
+          .trust-item {
+            flex-direction: column;
+            text-align: center;
+            gap: 8px;
+          }
+          .trust-icon-box {
+            width: 42px;
+            height: 42px;
+          }
+          .trust-info h4 {
+            font-size: 0.85rem;
+          }
+          .trust-info p {
+            font-size: 0.75rem;
           }
         }
         .trust-item {
@@ -511,6 +554,26 @@ export const Homepage = () => {
         .section-header-row h2 {
           font-size: 2rem;
           margin-bottom: 6px;
+        }
+        @media (max-width: 768px) {
+          .section-header {
+            margin-bottom: 32px;
+            padding: 0 16px;
+          }
+          .section-header h2 {
+            font-size: 1.7rem;
+          }
+          .section-header-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding: 0 16px;
+          }
+          .section-header-row h2 {
+            font-size: 1.6rem;
+            margin-bottom: 2px;
+          }
         }
 
         /* Category layouts */
@@ -615,6 +678,13 @@ export const Homepage = () => {
         @media (max-width: 576px) {
           .occasion-grid {
             grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+          }
+          .occasion-card {
+            height: 120px;
+          }
+          .occasion-card-title {
+            font-size: 0.85rem;
           }
         }
         .occasion-card {

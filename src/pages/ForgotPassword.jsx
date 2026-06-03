@@ -120,6 +120,11 @@ export const ForgotPassword = () => {
           padding: 40px;
           box-shadow: var(--shadow-md);
         }
+        @media (max-width: 480px) {
+          .auth-card {
+            padding: 24px;
+          }
+        }
         .back-to-login {
           margin-bottom: 20px;
         }

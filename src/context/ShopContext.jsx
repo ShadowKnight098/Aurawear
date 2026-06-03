@@ -117,12 +117,17 @@ export const ShopProvider = ({ children }) => {
 
   // Cart state
   const [cart, setCart] = useState(() => {
-    const saved = localStorage.getItem('aura_cart');
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem('aura_cart');
+      const parsed = saved ? JSON.parse(saved) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      return [];
+    }
   });
 
   useEffect(() => {
-    localStorage.setItem('aura_cart', JSON.stringify(cart));
+    localStorage.setItem('aura_cart', JSON.stringify(cart || []));
   }, [cart]);
 
   // Wishlist state (user-scoped)
@@ -132,10 +137,12 @@ export const ShopProvider = ({ children }) => {
       if (savedUser) {
         const u = JSON.parse(savedUser);
         const saved = localStorage.getItem(`aura_wishlist_${u.id}`);
-        return saved ? JSON.parse(saved) : [];
+        const parsed = saved ? JSON.parse(saved) : [];
+        return Array.isArray(parsed) ? parsed : [];
       }
       const guestSaved = localStorage.getItem('aura_wishlist_guest');
-      return guestSaved ? JSON.parse(guestSaved) : [];
+      const guestParsed = guestSaved ? JSON.parse(guestSaved) : [];
+      return Array.isArray(guestParsed) ? guestParsed : [];
     } catch (e) {
       return [];
     }
@@ -143,20 +150,25 @@ export const ShopProvider = ({ children }) => {
 
   useEffect(() => {
     if (user) {
-      localStorage.setItem(`aura_wishlist_${user.id}`, JSON.stringify(wishlist));
+      localStorage.setItem(`aura_wishlist_${user.id}`, JSON.stringify(wishlist || []));
     } else {
-      localStorage.setItem('aura_wishlist_guest', JSON.stringify(wishlist));
+      localStorage.setItem('aura_wishlist_guest', JSON.stringify(wishlist || []));
     }
   }, [wishlist, user]);
 
   // Recently Viewed state
   const [recentlyViewed, setRecentlyViewed] = useState(() => {
-    const saved = localStorage.getItem('aura_recently_viewed');
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem('aura_recently_viewed');
+      const parsed = saved ? JSON.parse(saved) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      return [];
+    }
   });
 
   useEffect(() => {
-    localStorage.setItem('aura_recently_viewed', JSON.stringify(recentlyViewed));
+    localStorage.setItem('aura_recently_viewed', JSON.stringify(recentlyViewed || []));
   }, [recentlyViewed]);
 
   // Product Comparison state (max 3 items)
@@ -407,9 +419,23 @@ export const ShopProvider = ({ children }) => {
               name = dbProfile.name || name;
               phone = dbProfile.phone || phone;
               role = dbProfile.role || role;
+            } else {
+              const autoRole = session.user.email === 'admin@aurawear.com' ? 'admin' : 'customer';
+              await supabase
+                .from('customers')
+                .insert({
+                  id: session.user.id,
+                  name,
+                  email: session.user.email,
+                  phone,
+                  role: autoRole
+                });
+              if (autoRole === 'admin') {
+                role = 'admin';
+              }
             }
           } catch (err) {
-            console.error('Error fetching customer profile:', err);
+            console.error('Error fetching/syncing customer profile:', err);
           }
 
           setUser({
@@ -445,9 +471,23 @@ export const ShopProvider = ({ children }) => {
               name = dbProfile.name || name;
               phone = dbProfile.phone || phone;
               role = dbProfile.role || role;
+            } else {
+              const autoRole = session.user.email === 'admin@aurawear.com' ? 'admin' : 'customer';
+              await supabase
+                .from('customers')
+                .insert({
+                  id: session.user.id,
+                  name,
+                  email: session.user.email,
+                  phone,
+                  role: autoRole
+                });
+              if (autoRole === 'admin') {
+                role = 'admin';
+              }
             }
           } catch (err) {
-            console.error('Error fetching customer profile:', err);
+            console.error('Error fetching/syncing customer profile:', err);
           }
 
           setUser({
@@ -1082,7 +1122,7 @@ export const ShopProvider = ({ children }) => {
   };
 
   // Cart Calculations & Coupon Re-validation Effect
-  const getSubtotal = () => cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const getSubtotal = () => (cart || []).reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const getShipping = (subtotal) => (subtotal > 1500 || subtotal === 0) ? 0 : 80;
 
   useEffect(() => {
@@ -1095,7 +1135,7 @@ export const ShopProvider = ({ children }) => {
 
         // Validate category
         if (isValid && coupon.category_restriction && coupon.category_restriction !== 'All') {
-          isValid = cart.some(item => {
+          isValid = (cart || []).some(item => {
             const prod = products.find(p => p.id === item.id);
             return prod && prod.category.toLowerCase() === coupon.category_restriction.toLowerCase();
           });

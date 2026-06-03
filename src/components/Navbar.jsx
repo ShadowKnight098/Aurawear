@@ -310,8 +310,8 @@ export const Navbar = () => {
           left: 0;
           width: 100%;
           height: var(--nav-height);
-          background-color: transparent;
-          border-bottom: 1px solid transparent;
+          background-color: var(--bg-primary);
+          border-bottom: 1px solid var(--border-color);
           z-index: 100;
           transition: var(--transition-normal);
           display: flex;

@@ -145,7 +145,8 @@ export const CheckoutPage = () => {
           `Thank you for shopping with Aura Wear! Please confirm this order.`;
 
         const encodedText = encodeURIComponent(text);
-        const whatsappUrl = `https://api.whatsapp.com/send?phone=${DEALER_WHATSAPP_NUMBER}&text=${encodedText}`;
+        // wa.me universal link opens WhatsApp app directly if available (bypassing browser landing pages on mobile)
+        const whatsappUrl = `https://wa.me/${DEALER_WHATSAPP_NUMBER}?text=${encodedText}`;
         
         if (newTab) {
           newTab.location.href = whatsappUrl;

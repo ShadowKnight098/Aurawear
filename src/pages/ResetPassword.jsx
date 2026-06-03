@@ -109,6 +109,11 @@ export const ResetPassword = () => {
           padding: 40px;
           box-shadow: var(--shadow-md);
         }
+        @media (max-width: 480px) {
+          .auth-card {
+            padding: 24px;
+          }
+        }
         .auth-header {
           text-align: center;
           margin-bottom: 24px;

@@ -602,6 +602,14 @@ export const ProductDetails = () => {
         .gallery-thumbs {
           display: flex;
           gap: 12px;
+          overflow-x: auto;
+          white-space: nowrap;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+          width: 100%;
+        }
+        .gallery-thumbs::-webkit-scrollbar {
+          display: none;
         }
         .thumb-btn {
           width: 80px;
@@ -610,6 +618,7 @@ export const ProductDetails = () => {
           overflow: hidden;
           border: 1px solid var(--border-color);
           background-color: var(--bg-secondary);
+          flex-shrink: 0;
         }
         .thumb-btn.active {
           border-color: var(--accent-color);
@@ -776,9 +785,17 @@ export const ProductDetails = () => {
         /* Tabs Section */
         .tabs-header {
           display: flex;
-          gap: 32px;
+          gap: 24px;
           border-bottom: 1px solid var(--border-color);
           margin-bottom: 24px;
+          overflow-x: auto;
+          white-space: nowrap;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+          width: 100%;
+        }
+        .tabs-header::-webkit-scrollbar {
+          display: none;
         }
         .tab-title-btn {
           font-family: var(--font-display);
@@ -788,6 +805,7 @@ export const ProductDetails = () => {
           color: var(--text-muted);
           border-bottom: 2px solid transparent;
           transition: var(--transition-fast);
+          flex-shrink: 0;
         }
         .tab-title-btn:hover {
           color: var(--text-primary);
@@ -922,6 +940,17 @@ export const ProductDetails = () => {
           gap: 20px;
           margin-top: 24px;
         }
+        @media (max-width: 576px) {
+          .bundle-items-row {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 16px;
+          }
+          .bundle-plus-sign {
+            transform: rotate(90deg);
+          }
+        }
         .bundle-item-card {
           width: 120px;
           display: flex;
@@ -1029,6 +1058,18 @@ export const ProductDetails = () => {
           }
           .details-actions {
             margin-bottom: 24px;
+          }
+          .product-details-wrapper {
+            padding-bottom: 100px;
+          }
+        }
+        @media (max-width: 480px) {
+          .details-actions {
+            flex-direction: column;
+            gap: 12px;
+          }
+          .cart-cta-btn, .buy-cta-btn {
+            width: 100%;
           }
         }
       `}</style>
