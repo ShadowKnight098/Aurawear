@@ -18,6 +18,8 @@ export const ShopProvider = ({ children }) => {
     }
   });
 
+  const [authLoading, setAuthLoading] = useState(true);
+
   useEffect(() => {
     localStorage.setItem('aura_user', JSON.stringify(user));
   }, [user]);
@@ -330,72 +332,87 @@ export const ShopProvider = ({ children }) => {
 
   // Sync Supabase Auth session states
   useEffect(() => {
-    if (!supabase) return;
+    if (!supabase) {
+      setAuthLoading(false);
+      return;
+    }
 
     // Retrieve active session immediately
     supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (session) {
-        let role = 'customer';
-        let name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
-        let phone = session.user.phone || '';
+      try {
+        if (session) {
+          let role = 'customer';
+          let name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
+          let phone = session.user.phone || '';
 
-        try {
-          const { data: dbProfile } = await supabase
-            .from('customers')
-            .select('*')
-            .eq('id', session.user.id)
-            .maybeSingle();
-          if (dbProfile) {
-            name = dbProfile.name || name;
-            phone = dbProfile.phone || phone;
-            role = dbProfile.role || role;
+          try {
+            const { data: dbProfile } = await supabase
+              .from('customers')
+              .select('*')
+              .eq('id', session.user.id)
+              .maybeSingle();
+            if (dbProfile) {
+              name = dbProfile.name || name;
+              phone = dbProfile.phone || phone;
+              role = dbProfile.role || role;
+            }
+          } catch (err) {
+            console.error('Error fetching customer profile:', err);
           }
-        } catch (err) {
-          console.error('Error fetching customer profile:', err);
-        }
 
-        setUser({
-          id: session.user.id,
-          name,
-          email: session.user.email,
-          phone,
-          role,
-          isAdmin: role === 'admin'
-        });
+          setUser({
+            id: session.user.id,
+            name,
+            email: session.user.email,
+            phone,
+            role,
+            isAdmin: role === 'admin'
+          });
+        }
+      } catch (err) {
+        console.error('Error in getSession check:', err);
+      } finally {
+        setAuthLoading(false);
       }
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      if (session) {
-        let role = 'customer';
-        let name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
-        let phone = session.user.phone || '';
+      try {
+        if (session) {
+          let role = 'customer';
+          let name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
+          let phone = session.user.phone || '';
 
-        try {
-          const { data: dbProfile } = await supabase
-            .from('customers')
-            .select('*')
-            .eq('id', session.user.id)
-            .maybeSingle();
-          if (dbProfile) {
-            name = dbProfile.name || name;
-            phone = dbProfile.phone || phone;
-            role = dbProfile.role || role;
+          try {
+            const { data: dbProfile } = await supabase
+              .from('customers')
+              .select('*')
+              .eq('id', session.user.id)
+              .maybeSingle();
+            if (dbProfile) {
+              name = dbProfile.name || name;
+              phone = dbProfile.phone || phone;
+              role = dbProfile.role || role;
+            }
+          } catch (err) {
+            console.error('Error fetching customer profile:', err);
           }
-        } catch (err) {
-          console.error('Error fetching customer profile:', err);
-        }
 
-        setUser({
-          id: session.user.id,
-          name,
-          email: session.user.email,
-          phone,
-          role,
-          isAdmin: role === 'admin'
-        });
-      } else {
-        setUser(null);
+          setUser({
+            id: session.user.id,
+            name,
+            email: session.user.email,
+            phone,
+            role,
+            isAdmin: role === 'admin'
+          });
+        } else {
+          setUser(null);
+        }
+      } catch (err) {
+        console.error('Error in onAuthStateChange:', err);
+      } finally {
+        setAuthLoading(false);
       }
     });
 
@@ -1501,6 +1518,7 @@ export const ShopProvider = ({ children }) => {
       editUserAddress,
       orders,
       user,
+      authLoading,
       couponCode,
       discountAmount,
       discountPercent,

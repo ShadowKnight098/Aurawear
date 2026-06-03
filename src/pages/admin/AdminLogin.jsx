@@ -1,20 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useShop } from '../../context/ShopContext';
 import { Lock, Mail, Settings, ShieldCheck } from 'lucide-react';
 
 export const AdminLogin = () => {
-  const { loginUser } = useShop();
+  const { user, loginUser } = useShop();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('admin@aurawear.com');
   const [password, setPassword] = useState('admin123');
   const [errorMsg, setErrorMsg] = useState('');
 
-  const handleAdminSubmit = (e) => {
+  useEffect(() => {
+    if (user) {
+      if (user.isAdmin) {
+        navigate('/admin', { replace: true });
+      } else {
+        navigate('/dashboard', { replace: true });
+      }
+    }
+  }, [user, navigate]);
+
+  const handleAdminSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
-    const res = loginUser(email, password);
+    const res = await loginUser(email, password);
     if (res.success && res.user.isAdmin) {
       navigate('/admin');
     } else {

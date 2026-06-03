@@ -35,7 +35,20 @@ import { AdminCoupons } from './pages/admin/AdminCoupons';
 
 // Route Guard for Admin Portal
 const ProtectedAdminRoute = ({ children }) => {
-  const { user } = useShop();
+  const { user, authLoading } = useShop();
+  if (authLoading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column', gap: '16px', backgroundColor: 'var(--bg-primary)' }}>
+        <div className="spinner" style={{ width: '40px', height: '40px', borderRadius: '50%', border: '3px solid var(--border-color)', borderTopColor: 'var(--accent-color)', animation: 'spin 1s linear infinite' }}></div>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>Authenticating...</p>
+        <style>{`
+          @keyframes spin {
+            to { transform: rotate(360deg); }
+          }
+        `}</style>
+      </div>
+    );
+  }
   if (!user || !user.isAdmin) {
     return <Navigate to="/admin/login" replace />;
   }
@@ -44,7 +57,20 @@ const ProtectedAdminRoute = ({ children }) => {
 
 // Route Guard for Customer Dashboard
 const ProtectedUserRoute = ({ children }) => {
-  const { user } = useShop();
+  const { user, authLoading } = useShop();
+  if (authLoading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column', gap: '16px', backgroundColor: 'var(--bg-primary)' }}>
+        <div className="spinner" style={{ width: '40px', height: '40px', borderRadius: '50%', border: '3px solid var(--border-color)', borderTopColor: 'var(--accent-color)', animation: 'spin 1s linear infinite' }}></div>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>Loading Dashboard...</p>
+        <style>{`
+          @keyframes spin {
+            to { transform: rotate(360deg); }
+          }
+        `}</style>
+      </div>
+    );
+  }
   if (!user) {
     return <Navigate to="/login" replace />;
   }

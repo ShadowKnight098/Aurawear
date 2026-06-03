@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import { Lock, Mail, User, Phone, CheckCircle } from 'lucide-react';
 
 export const Register = () => {
-  const { registerUser, signInWithGoogle } = useShop();
+  const { user, registerUser, signInWithGoogle } = useShop();
   const navigate = useNavigate();
 
   const [name, setName] = useState('');
@@ -14,6 +14,16 @@ export const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      if (user.isAdmin) {
+        navigate('/admin', { replace: true });
+      } else {
+        navigate('/dashboard', { replace: true });
+      }
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
