@@ -30,7 +30,7 @@ export const Login = () => {
       if (res.user.isAdmin) {
         navigate('/admin');
       } else {
-        navigate('/shop');
+        navigate('/dashboard');
       }
     } else {
       setErrorMsg(res.message || 'Invalid login credentials');
@@ -45,7 +45,7 @@ export const Login = () => {
       if (res.success) {
         // If OAuth returns a redirect URL it goes there, otherwise in mock sandbox it signs in immediately
         if (res.user) {
-          navigate('/shop');
+          navigate('/dashboard');
         }
       } else {
         setErrorMsg(res.message || 'Google authentication failed.');

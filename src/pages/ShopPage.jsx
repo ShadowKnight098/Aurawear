@@ -3,12 +3,19 @@ import { useLocation, useSearchParams } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import { ProductCard } from '../components/ProductCard';
 import { SkeletonLoader } from '../components/SkeletonLoader';
+import { useDocumentSEO } from '../hooks/useDocumentSEO';
 import { Filter, X, SlidersHorizontal, ArrowUpDown } from 'lucide-react';
 
 export const ShopPage = () => {
   const { products, performAISearch } = useShop();
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
+
+  useDocumentSEO({
+    title: 'Shop Catalog - Premium Minimalist Clothing',
+    description: 'Explore the full Aura Wear catalog. Browse premium collection of minimalist shirts, pants, skirts, coats, jackets, and accessories by size, category, and price.',
+    keywords: 'shop clothing, contemporary fashion catalog, buy minimalist shirts, mens trousers, womens outerwear'
+  });
 
   // Filters State
   const [category, setCategory] = useState(searchParams.get('category') || 'All');

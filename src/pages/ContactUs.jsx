@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send, Check } from 'lucide-react';
+import { useDocumentSEO } from '../hooks/useDocumentSEO';
 
 export const ContactUs = () => {
+  useDocumentSEO({
+    title: 'Contact Us - Customer Support & Atelier Location',
+    description: 'Get in touch with Aura Wear. Contact our Hyderabad atelier for inquiries on orders, fabric specs, sizing fits, custom requests, or returns.',
+    keywords: 'contact aura wear, customer support Hyderabad, contemporary fashion atelier, email aura wear, clothing help line'
+  });
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [msg, setMsg] = useState('');

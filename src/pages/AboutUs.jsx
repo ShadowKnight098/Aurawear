@@ -1,7 +1,14 @@
 import React from 'react';
 import { Target, Leaf, Heart, Award } from 'lucide-react';
+import { useDocumentSEO } from '../hooks/useDocumentSEO';
 
 export const AboutUs = () => {
+  useDocumentSEO({
+    title: 'About Our Philosophy & Story',
+    description: 'Learn about Aura Wear\'s principles. We craft high-quality organic cotton clothing with zero logo print and honest flat pricing structures.',
+    keywords: 'about aura wear, clothing philosophy, organic cotton manufacturer, tagless premium brand'
+  });
+
   return (
     <div className="about-page-wrapper section-padding animate-fade-in">
       <div className="container">

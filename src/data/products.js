@@ -424,5 +424,291 @@ export const products = [
       "Sturdy triple-locked stitched button holes"
     ],
     reviews: []
+  },
+  {
+    id: "m-6",
+    name: "Classic Cotton Chino Trousers",
+    category: "Men",
+    subCategory: "Trousers",
+    price: 1499,
+    originalPrice: 2199,
+    discountBadge: "Classic Fit",
+    rating: 4.6,
+    reviewsCount: 78,
+    images: [
+      "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=600&auto=format&fit=crop&q=80"
+    ],
+    videoUrl: "",
+    availability: "In Stock",
+    stock: 35,
+    sizes: ["30", "32", "34", "36"],
+    colors: ["Khaki", "Navy", "Olive"],
+    fit: "Straight Fit",
+    brand: "Brand A",
+    occasions: ["Casual", "Office Wear"],
+    description: "A timeless wardrobe classic. Crafted from lightweight combed cotton twill with a touch of stretch for day-long flexibility, these chinos feature standard slant pockets and welt button back pockets.",
+    features: [
+      "98% premium long-staple cotton, 2% spandex active stretch",
+      "Double-stitched belt loops and seams",
+      "YKK brass zip closure",
+      "Stain-resistant wash treatment"
+    ],
+    reviews: []
+  },
+  {
+    id: "m-7",
+    name: "Luxury Summer Linen Blazer",
+    category: "Men",
+    subCategory: "Jackets",
+    price: 3999,
+    originalPrice: 5999,
+    discountBadge: "Premium Quality",
+    rating: 4.8,
+    reviewsCount: 45,
+    images: [
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&auto=format&fit=crop&q=80"
+    ],
+    videoUrl: "",
+    availability: "In Stock",
+    stock: 10,
+    sizes: ["38", "40", "42", "44"],
+    colors: ["Beige", "Blue"],
+    fit: "Tailored Fit",
+    brand: "Brand B",
+    occasions: ["Formal", "Party Wear"],
+    description: "Perfect for upscale summer dressing. Hand-cut from certified Belgian linen yarns, this unstructured blazer is lightweight and breathable, featuring notched lapels, patch utility pockets, and a dual-vented back.",
+    features: [
+      "100% natural organic linen fiber",
+      "Unlined back for superior breathability",
+      "Authentic horn buttons",
+      "Internal passport and phone pocket slots"
+    ],
+    reviews: [
+      { id: 1, name: "Kabir S.", rating: 5, date: "May 25, 2026", comment: "Beautiful light weight blazer. Creases nicely as real linen should. Perfect for beach weddings." }
+    ]
+  },
+  {
+    id: "m-8",
+    name: "Premium Merino Wool Sweater",
+    category: "Men",
+    subCategory: "Sweaters",
+    price: 2799,
+    originalPrice: 3999,
+    discountBadge: "Warm Comfort",
+    rating: 4.7,
+    reviewsCount: 63,
+    images: [
+      "https://images.unsplash.com/photo-1614975058789-41316d0e2e9c?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1620799140188-3b2a02fd9a77?w=600&auto=format&fit=crop&q=80"
+    ],
+    videoUrl: "",
+    availability: "In Stock",
+    stock: 20,
+    sizes: ["S", "M", "L", "XL"],
+    colors: ["Navy", "Charcoal"],
+    fit: "Regular Fit",
+    brand: "Brand A",
+    occasions: ["Office Wear", "Casual"],
+    description: "Finely knit from extra-fine Merino wool yarns, this lightweight crewneck sweater delivers optimal thermal insulation while feeling exceptionally smooth against the skin. Stays thin for easy layering.",
+    features: [
+      "100% extra-fine Merino wool fibers",
+      "Ribbed crew neckline, cuffs, and hem profile",
+      "Natural odor-resistant properties",
+      "Highly breathable active insulation"
+    ],
+    reviews: []
+  },
+  {
+    id: "w-6",
+    name: "High-Waisted Wide-Leg Trousers",
+    category: "Women",
+    subCategory: "Trousers",
+    price: 1799,
+    originalPrice: 2499,
+    discountBadge: "New Arrival",
+    rating: 4.8,
+    reviewsCount: 52,
+    images: [
+      "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1509319117193-57bab727e09d?w=600&auto=format&fit=crop&q=80"
+    ],
+    videoUrl: "",
+    availability: "In Stock",
+    stock: 18,
+    sizes: ["XS", "S", "M", "L", "XL"],
+    colors: ["Cream", "Black", "Sage"],
+    fit: "Relaxed Fit",
+    brand: "Brand B",
+    occasions: ["Office Wear", "Casual"],
+    description: "Chic, tailored structure with a modern relaxed drape. These wide-leg trousers feature a comfortable high-waist band, front pleat detailing, functional side pockets, and a clean hook-and-bar closure.",
+    features: [
+      "Premium poly-viscose blend with active recovery stretch",
+      "Structured high waist with deep belt loops",
+      "Double front pleats for a flattering drape",
+      "Wrinkle-resistant weave composition"
+    ],
+    reviews: [
+      { id: 1, name: "Riya P.", rating: 5, date: "May 28, 2026", comment: "The cream color is gorgeous. Drapes beautifully and pairs perfectly with crop tops." }
+    ]
+  },
+  {
+    id: "w-7",
+    name: "Minimalist Cashmere Cardigan",
+    category: "Women",
+    subCategory: "Cardigans",
+    price: 2999,
+    originalPrice: 4499,
+    discountBadge: "Luxury Knit",
+    rating: 4.9,
+    reviewsCount: 37,
+    images: [
+      "https://images.unsplash.com/photo-1584273112727-6c16cd939364?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&auto=format&fit=crop&q=80"
+    ],
+    videoUrl: "",
+    availability: "In Stock",
+    stock: 12,
+    sizes: ["S", "M", "L", "XL"],
+    colors: ["Oatmeal", "Grey"],
+    fit: "Oversized",
+    brand: "Brand A",
+    occasions: ["Casual", "Winter Wear"],
+    description: "Wrap yourself in absolute luxury. Knit from a premium blend containing pure Mongolian cashmere, this open-front cardigan features dropped shoulders, deep patch pockets, and a clean minimalist hem.",
+    features: [
+      "10% genuine cashmere, 90% merino wool premium blend",
+      "Dropped shoulders and relaxed open silhouette",
+      "Two front functional patch pockets",
+      "Ultra-soft hand feel with static resistance"
+    ],
+    reviews: []
+  },
+  {
+    id: "w-8",
+    name: "Classic Belted Trench Coat",
+    category: "Women",
+    subCategory: "Coats",
+    price: 3499,
+    originalPrice: 4999,
+    discountBadge: "Timeless",
+    rating: 4.7,
+    reviewsCount: 68,
+    images: [
+      "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=600&auto=format&fit=crop&q=80"
+    ],
+    videoUrl: "",
+    availability: "In Stock",
+    stock: 15,
+    sizes: ["XS", "S", "M", "L", "XL"],
+    colors: ["Beige", "Black"],
+    fit: "Regular Fit",
+    brand: "Brand B",
+    occasions: ["Casual", "Formal"],
+    description: "The ultimate classic outerwear piece. Built with a double-breasted button configuration, storm flaps, and a matching fabric belt to cinch the waist. Water-repellent finish for transitional seasons.",
+    features: [
+      "High-density water-repellent gabardine twill",
+      "Premium tortoiseshell double-breasted buttons",
+      "Detachable tie waist belt and cuff straps",
+      "Dual hand-warmer welt pockets"
+    ],
+    reviews: []
+  },
+  {
+    id: "k-4",
+    name: "Kids Organic Cotton Pajama Set",
+    category: "Kids",
+    subCategory: "Sleepwear",
+    price: 699,
+    originalPrice: 999,
+    discountBadge: "Organic Sleep",
+    rating: 4.9,
+    reviewsCount: 42,
+    images: [
+      "https://images.unsplash.com/photo-1519689680058-324335c77ebe?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1515488042361-404e9250afef?w=600&auto=format&fit=crop&q=80"
+    ],
+    videoUrl: "",
+    availability: "In Stock",
+    stock: 40,
+    sizes: ["3-5 Years", "6-8 Years", "9-12 Years"],
+    ageGroup: "3-5 Years",
+    colors: ["Mint", "Pink"],
+    fit: "Regular Fit",
+    brand: "Brand A",
+    occasions: ["Casual"],
+    description: "Ensure peaceful nights in our ultra-soft organic pajama set. Crafted from certified organic jersey cotton with a flexible elastic waistband and ribbed cuffs to keep sleeves and legs in place.",
+    features: [
+      "100% GOTS certified organic jersey cotton",
+      "Ribbed crewneck collar and sleeve/ankle bands",
+      "Tagless design to eliminate irritation",
+      "Lead-free, non-toxic print patterns"
+    ],
+    reviews: []
+  },
+  {
+    id: "k-5",
+    name: "Kids Denim Overall Dress Set",
+    category: "Kids",
+    subCategory: "Dresses",
+    price: 1199,
+    originalPrice: 1699,
+    discountBadge: "Playful Set",
+    rating: 4.8,
+    reviewsCount: 31,
+    images: [
+      "https://images.unsplash.com/photo-1607990283143-e81e7a2c93ab?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1611601679655-7c8bc197f0c6?w=600&auto=format&fit=crop&q=80"
+    ],
+    videoUrl: "",
+    availability: "In Stock",
+    stock: 15,
+    sizes: ["3-5 Years", "6-8 Years", "9-12 Years"],
+    ageGroup: "6-8 Years",
+    colors: ["Blue Denim"],
+    fit: "Regular Fit",
+    brand: "Brand B",
+    occasions: ["Casual", "Summer Collection"],
+    description: "An adorable complete set for styling. Includes a soft, striped organic cotton tee and a durable indigo denim overall pinafore dress with adjustable button straps and a handy front pouch pocket.",
+    features: [
+      "100% thick premium cotton denim overalls",
+      "Comes with matching knit t-shirt base layer",
+      "Adjustable metal snap buttons on straps",
+      "Front chest pocket and side pockets"
+    ],
+    reviews: []
+  },
+  {
+    id: "k-6",
+    name: "Kids Canvas Playground Sneakers",
+    category: "Kids",
+    subCategory: "Shoes",
+    price: 899,
+    originalPrice: 1299,
+    discountBadge: "Durable Footwear",
+    rating: 4.6,
+    reviewsCount: 27,
+    images: [
+      "https://images.unsplash.com/photo-1515621061946-eff1c2a352bd?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1539185441755-769473a23570?w=600&auto=format&fit=crop&q=80"
+    ],
+    videoUrl: "",
+    availability: "In Stock",
+    stock: 30,
+    sizes: ["3-5 Years", "6-8 Years", "9-12 Years"],
+    ageGroup: "9-12 Years",
+    colors: ["Red", "Navy", "Yellow"],
+    fit: "Regular Fit",
+    brand: "Brand A",
+    occasions: ["Casual"],
+    description: "Comfortable canvas sneakers built for high-energy play. Designed with breathable cotton canvas, double-reinforced toe bumpers, and easy-to-use secure hook-and-loop velcro straps for independent wearing.",
+    features: [
+      "High-density breathable canvas upper",
+      "Sturdy vulcanized non-slip rubber outsoles",
+      "Double hook-and-loop velcro closure straps",
+      "Padded soft memory foam insoles"
+    ],
+    reviews: []
   }
 ];

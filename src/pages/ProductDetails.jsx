@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import { ProductCard } from '../components/ProductCard';
+import { useDocumentSEO } from '../hooks/useDocumentSEO';
 import { 
   Heart, ShoppingBag, Truck, RotateCcw, ShieldCheck, 
   Star, Play, Check, ChevronRight, MessageSquare 
@@ -16,6 +17,12 @@ export const ProductDetails = () => {
   } = useShop();
 
   const [product, setProduct] = useState(null);
+  
+  useDocumentSEO({
+    title: product ? `Buy ${product.name} | Contemporary Minimalist` : 'Loading Product...',
+    description: product ? `${product.name} - ${product.description.slice(0, 150)}... Buy premium fashion at Aura Wear.` : 'Curated luxury products catalog.',
+    keywords: product ? `${product.name.toLowerCase()}, buy ${product.name.toLowerCase()}, aura wear ${product.category.toLowerCase()}, minimalist apparel` : 'minimalist clothes'
+  });
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const [selectedSize, setSelectedSize] = useState('M');
   const [selectedColor, setSelectedColor] = useState('Black');

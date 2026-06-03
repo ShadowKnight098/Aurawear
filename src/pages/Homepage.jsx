@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import { ProductCard } from '../components/ProductCard';
+import { useDocumentSEO } from '../hooks/useDocumentSEO';
 import { 
   Truck, ArrowRight, ShieldCheck, RefreshCw, Headset, 
   Star, Timer, Sparkles, ChevronLeft, ChevronRight 
@@ -10,6 +11,12 @@ import {
 export const Homepage = () => {
   const { products } = useShop();
   const navigate = useNavigate();
+
+  useDocumentSEO({
+    title: 'Premium Contemporary Minimalist Clothing Store',
+    description: 'Shop Aura Wear for premium minimalist apparel, custom contemporary shirts, luxury trousers, jackets, and accessories. Premium quality, direct to your door.',
+    keywords: 'minimalist fashion, contemporary clothing, luxury shirts, clean aesthetics, aurawear'
+  });
 
   // Flash Sale Countdown timer (ticks down every second)
   const [timeLeft, setTimeLeft] = useState({ hours: 4, minutes: 34, seconds: 12 });
